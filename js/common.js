@@ -50,7 +50,53 @@ function Class(parent) {
 
 // Add Class Drag
 var Drag = Class();
-Drag.fn.init = function(){
+
+Drag.fn.init = function(dragEle){
     this.dragEle = dragEle;
+    this.tar =  null;
+    this.sL = 0;
+    this.sT = 0;
+    this.disX = 0;
+    this.disY = 0;
+    this.start();
 };
-var dragA = new Drag();
+Drag.include({
+    start:function(){
+        var _this = this;
+        this.dragEle.mousedown(function(e){
+            _this.downHandler(e);
+        });
+    },
+    downHandler:function(e){
+        var _this = this;
+        function moveHandler(e){
+            _this.moveHandler(e);
+        }
+        function upHandler(e){
+            $(document).unbind('mousemove',moveHandler);
+            $(document).unbind('mouseup',upHandler);
+        }
+        var offset = this.dragEle.offset();
+        this.sL = $(window).scrollLeft();
+        this.sT = $(window).scrollTop();
+        this.disX = e.clientX + this.sL - offset.left;
+        this.disY = e.clientY + this.sT - offset.top;
+        $(document).mousemove(moveHandler);
+        $(document).mouseup(upHandler);
+        if(e.stopPropagation){
+            e.stopPropagation();
+        }
+        e.cancelable = true;
+    },
+    moveHandler:function(e){
+        var x, y,ele = this.dragEle,offset = ele.offset();
+        this.tar = ele.parent();
+        this.sL = $(window).scrollLeft();
+        this.sT = $(window).scrollTop();
+        x = e.clientX + this.sL - this.disX;
+        y = e.clientY + this.sT - this.disY;
+        this.tar.css('left',x);
+        this.tar.css('top',y);
+    }
+});
+

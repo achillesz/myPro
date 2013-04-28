@@ -9,9 +9,16 @@
     <script type="text/javascript" src="js/common.js"></script>
 </head>
 <body>
+<div style="width: 3000px; height: 900px;">s</div>
 <div class="box">
-    <h2 class="tit">标题</h2>
+    <h2 class="tit" id="dragSrc">标题</h2>
     <div class="con"><a href="#">dfdf</a></div>
 </div>
+<script type="text/javascript">
+    $(function(){
+        var obj = $('#dragSrc');
+        var dragA = new Drag(obj);
+    })
+</script>
 </body>
 </html>
