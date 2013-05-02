@@ -50,7 +50,7 @@ function Class(parent) {
 
 // Add Class Drag
 var Drag = Class();
-
+// 初始化类
 Drag.fn.init = function(dragEle){
     this.dragEle = dragEle;
     this.tar =  null;
@@ -60,6 +60,7 @@ Drag.fn.init = function(dragEle){
     this.disY = 0;
     this.start();
 };
+// 扩展原型
 Drag.include({
     start:function(){
         var _this = this;
@@ -99,4 +100,90 @@ Drag.include({
         this.tar.css('top',y);
     }
 });
+
+// add Tab Class
+var Tab = Class();
+// 初始化类
+Tab.fn.init = function(options){
+    this.elem = null;
+    this.navs = null;
+    this.cons = null;
+    this.type = 'click';
+    this.firstDisplay = 0;
+    this.onClass = '';
+    this.callback = null;
+    $.extend(this,options);
+    this.start();
+};
+// 扩展原型
+Tab.include({
+    start:function(){
+        this.navs = this.ele.find('ul:first li');
+        this.cons = this.ele.children('div');
+        this.navs.eq(this.firstDisplay).addClass(this.onClass);
+        this.cons.hide();
+        this.cons.eq(this.firstDisplay).show();
+        this.bindEvent();
+    },
+    bindEvent:function(){
+        _this = this;
+        this.navs.bind(this.type,function(){
+            var index = this.index;
+            _this.navs.removeClass(_this.onClass);
+            _this.navs.eq(index).addClass(_this.onClass);
+            _this.cons.hide();
+            _this.cons.eq(index).show();
+            if(typeof _this.callback === 'function'){
+                _this.callback();
+            }
+        })
+    }
+});
+
+// add Class from the value to the other value
+var Animate = Class();
+Animate.fn.init = function(options){
+    this.ele = null;
+    this.value = 0;
+    this.tar = 0;
+    this.time = null;
+    this.speed = 5;
+    this.speed2 = 30;
+    this.attr = '';
+    $.extend(this,options);
+    this.start();
+}
+Animate.include({
+    start:function(){
+        var _this = this;
+        this.time = setInterval(function(){
+            _this.doIt(_this.attr);
+        },this.speed2)
+    },
+    getValue:function(attr){
+        if(attr === 'opacity'){
+           return this.ele.css(attr)*100;
+        }
+        return parseInt(this.ele.css(attr));
+    },
+    setValue:function(attr,value){
+        if(attr == 'opacity'){
+            return this.ele.css(attr,value/100);
+        }
+        this.ele.css(attr,value);
+    },
+    doIt:function(attr){
+        var iSpeed;
+        this.value = this.getValue(attr);
+        iSpeed = (this.tar - this.value) > 0 ? Math.ceil((this.tar - this.value) / this.speed ) : Math.floor((this.tar - this.value) / this.speed);
+        this.value += iSpeed;
+
+        if(this.value === this.tar){
+            clearInterval(this.time);
+        }
+        this.setValue(attr,this.value);
+    }
+});
+
+
 

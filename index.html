@@ -9,15 +9,59 @@
     <script type="text/javascript" src="js/common.js"></script>
 </head>
 <body>
-<div style="width: 3000px; height: 900px;">s</div>
+<!--drag s-->
 <div class="box">
     <h2 class="tit" id="dragSrc">БъЬт</h2>
     <div class="con"><a href="#">dfdf</a></div>
 </div>
+<!--drag e-->
+<!--tab s-->
+<div class="tab" id="tab">
+    <ul class="tabNav clearfix">
+        <li>nav1</li>
+        <li>nav2</li>
+        <li>nav3</li>
+        <li>nav4</li>
+    </ul>
+    <div class="tabCon" style="display: block">con1</div>
+    <div class="tabCon">con2</div>
+    <div class="tabCon">con3</div>
+    <div class="tabCon">con4</div>
+</div>
+<!--tab e-->
+<div class="test" id="test"></div>
 <script type="text/javascript">
     $(function(){
         var obj = $('#dragSrc');
         var dragA = new Drag(obj);
+        var tabA = new Tab({
+            ele:$('#tab'),
+            firstDisplay:2,
+            onClass:'on',
+            callback:function(){
+            }
+        });
+        var domove = new Animate({
+            ele:$('#test'),
+            speed:8,
+            speed2:30,
+            attr:'opacity',
+            tar:100
+        });
+        var domove = new Animate({
+            ele:$('#test'),
+            speed:8,
+            speed2:30,
+            attr:'width',
+            tar:500
+        });
+        var domove = new Animate({
+            ele:$('#test'),
+            speed:8,
+            speed2:30,
+            attr:'height',
+            tar:300
+        });
     })
 </script>
 </body>
