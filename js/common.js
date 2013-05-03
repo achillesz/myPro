@@ -184,6 +184,61 @@ Animate.include({
         this.setValue(attr,this.value);
     }
 });
+// add slide Class
+var Slide = Class();
+Slide.fn.init = function(options){
+    this.ele = null;
+    this.time1 = null;
+    this.time2 = null;
+    this.cons = null;
+    this.tits = null;
+    this.nums = null;
+    this.speed1 = 3000;
+    this.speed2 = 5;
+    this.nowIndex = 1;
+    this.cacheIndex = 0;
+    $.extend(this,options);
+    this.start();
+};
+Slide.include({
+    start:function(){
+        var ele = this.ele,
+            _this = this;
+        this.cons = ele.find('ul').eq(0).find('li');
+        this.tits = ele.find('ul').eq(1).find('li');
+        this.nums = ele.find('ul').eq(2).find('li');
+        this.time1 = setInterval(function(){_this.doIt(_this.nowIndex,_this.cacheIndex);},this.speed1);
+        this.bindEvent();
+    },
+    doIt:function(now,last){
+        this.cons.eq(last).animate({'opacity':0,'zIndex':0},1000);
+        this.cons.eq(now).animate({'opacity':1,'zIndex':1},1000);
+        this.tits.eq(last).animate({'opacity':0,'zIndex':0},0);
+        this.tits.eq(now).animate({'opacity':1,'zIndex':1},0);
+        this.nums.eq(last).removeClass('onNum');
+        this.nums.eq(now).addClass('onNum');
+        this.cacheIndex = now;
+        this.nowIndex++;
+        if(now === 3 ){
+            this.nowIndex = 0;
+        }
+    },
+    bindEvent:function(){
+        var _this = this;
+        this.ele.hover(function(){clearInterval(_this.time1)},function(){
+            _this.time1 = setInterval(function(){_this.doIt(_this.nowIndex,_this.cacheIndex);},_this.speed1);
+        });
+        this.nums.bind('mouseover',function(e){
+            _this.cons.stop(true,true);
+            _this.nowIndex = $(this).index();
+            _this.doIt(_this.nowIndex,_this.cacheIndex);
+        });
+        this.nums.find('a').bind('click',function(e){
+            if(e.preventDefault) e.preventDefault();
+            e.returnValue = true;
+        });
+    }
+});
 
 
 
