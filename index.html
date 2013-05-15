@@ -7,8 +7,10 @@
     <link rel="stylesheet" type="text/css" href="css/page.css"/>
     <script type="text/javascript" src="js/jquery-1.7.js"></script>
     <script type="text/javascript" src="js/common.js"></script>
+    <link rel="stylesheet" type="text/less" href="css/style.less"/>
 </head>
 <body>
+<a href="javascript:void(0);">ppk</a>
 <!--drag s-->
 <div class="box">
     <h2 class="tit" id="dragSrc">БъЬт</h2>
@@ -51,6 +53,9 @@
     </ul>
     <div class="opacity"></div>
 </div>
+
+<div class="boxX">dkfljdlkfjdlkfjdlk</div>
+
 <script type="text/javascript">
     $(function(){
         var obj = $('#dragSrc');
@@ -85,9 +90,11 @@
         });
         // slide
         var slide1 = new Slide({
-            ele:$('#slide')
+            ele:$('#slide'),
+            speed:3
         });
     })
 </script>
+<script type="text/javascript" src="js/less1_3.js"></script>
 </body>
 </html>
